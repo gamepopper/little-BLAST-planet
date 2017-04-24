@@ -99,19 +99,21 @@ class MenuState extends FlxState
 	{
 		super.update(elapsed);
 		
-		if (FlxG.keys.justPressed.UP)
+		var gamepad = FlxG.gamepads.getFirstActiveGamepad();
+		
+		if (FlxG.keys.justPressed.UP || (gamepad != null && (gamepad.justPressed.DPAD_UP || (gamepad.analog.justMoved.LEFT_STICK_Y && gamepad.analog.value.LEFT_STICK_Y < 0))))
 		{
 			currentEntry = (currentEntry - 1 + entries.length) % entries.length;
 			FlxG.sound.play("select");
 		}
 		
-		if (FlxG.keys.justPressed.DOWN)
+		if (FlxG.keys.justPressed.DOWN || (gamepad != null && (gamepad.justPressed.DPAD_DOWN || (gamepad.analog.justMoved.LEFT_STICK_Y && gamepad.analog.value.LEFT_STICK_Y > 0))))
 		{
 			currentEntry = (currentEntry + 1 + entries.length) % entries.length;
 			FlxG.sound.play("select");
 		}
 		
-		if (FlxG.keys.justPressed.LEFT)
+		if (FlxG.keys.justPressed.LEFT || (gamepad != null && (gamepad.justPressed.DPAD_LEFT || gamepad.analog.justMoved.LEFT_STICK_X)))
 		{
 			if (currentEntry == 1)
 			{
@@ -129,7 +131,7 @@ class MenuState extends FlxState
 			}
 		}
 		
-		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.SPACE)
+		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.SPACE || (gamepad != null && gamepad.justPressed.A))
 		{
 			if (currentEntry == 0)
 			{

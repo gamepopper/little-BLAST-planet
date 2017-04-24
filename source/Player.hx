@@ -38,33 +38,35 @@ class Player extends OrbitalSprite
 		isShooting = false;
 		isJumping = false;
 		
-		if (FlxG.keys.pressed.UP)
+		var gamepad = FlxG.gamepads.getFirstActiveGamepad();
+		
+		if (FlxG.keys.pressed.UP || (gamepad != null && (gamepad.pressed.DPAD_UP || gamepad.analog.value.LEFT_STICK_Y < -0.5)))
 		{
 			gunDirection = 0;
 		}
 		
-		if (FlxG.keys.pressed.LEFT)
+		if (FlxG.keys.pressed.LEFT || (gamepad != null && (gamepad.pressed.DPAD_LEFT || gamepad.analog.value.LEFT_STICK_X < -0.5)))
 		{
 			playerVel -= 120 * elapsed;
 			gunDirection = -90;
 			flipX = true;
 		}
 		
-		if (FlxG.keys.pressed.RIGHT)
+		if (FlxG.keys.pressed.RIGHT || (gamepad != null && (gamepad.pressed.DPAD_RIGHT || gamepad.analog.value.LEFT_STICK_X > 0.5)))
 		{
 			playerVel += 120 * elapsed;
 			gunDirection = 90;
 			flipX = false;
 		}
 		
-		if (FlxG.keys.pressed.DOWN && (velocity.x != 0 || velocity.y != 0))
+		if ((FlxG.keys.pressed.DOWN || (gamepad != null && (gamepad.pressed.DPAD_DOWN || gamepad.analog.value.LEFT_STICK_Y > 0.5))) && (velocity.x != 0 || velocity.y != 0))
 		{
 			gunDirection = 180;
 		}
 		
 		if (velocity.x == 0 && velocity.y == 0)
 		{
-			if (FlxG.keys.pressed.LEFT || FlxG.keys.pressed.RIGHT)
+			if ((FlxG.keys.pressed.LEFT || FlxG.keys.pressed.RIGHT) || (gamepad != null && gamepad.analog.value.LEFT_STICK_X != 0))
 			{
 				animation.play("run");
 			}
@@ -81,12 +83,12 @@ class Player extends OrbitalSprite
 			animation.play("jump");
 		}
 		
-		if (FlxG.keys.pressed.Z)
+		if (FlxG.keys.pressed.Z || (gamepad != null && gamepad.pressed.A))
 		{
 			isShooting = true;
 		}
 		
-		if (FlxG.keys.justPressed.X)
+		if (FlxG.keys.justPressed.X || (gamepad != null && gamepad.justPressed.B))
 		{
 			isJumping = true;
 		}

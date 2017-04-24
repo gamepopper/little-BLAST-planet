@@ -345,7 +345,9 @@ class PlayState extends FlxState
 		}
 		else
 		{
-			if (FlxG.keys.justPressed.R)
+			var gamepad = FlxG.gamepads.getFirstActiveGamepad();
+			
+			if (FlxG.keys.justPressed.R || (gamepad != null && gamepad.justPressed.RIGHT_SHOULDER))
 			{
 				time = 0;
 				level = 1;
@@ -353,7 +355,7 @@ class PlayState extends FlxState
 				FlxG.resetState();
 			}
 			
-			if (FlxG.keys.justPressed.M)
+			if (FlxG.keys.justPressed.M || (gamepad != null && gamepad.justPressed.START))
 			{
 				time = 0;
 				level = 1;
